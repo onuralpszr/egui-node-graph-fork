@@ -29,7 +29,7 @@ pub trait WidgetValueTrait: Default {
     ) -> Vec<Self::Response>;
 
     /// This method will be called for each input parameter with a widget with a connected
-    /// input only. To display UI for diconnected inputs use [`WidgetValueTrait::value_widget`].
+    /// input only. To display UI for disconnected inputs use [`WidgetValueTrait::value_widget`].
     /// The return value is a vector of custom response objects which can be used
     /// to implement handling of side effects. If unsure, the response Vec can
     /// be empty.
@@ -163,7 +163,7 @@ where
     /// Invoked between inputs, outputs and bottom UI. Useful for
     /// complicated UIs that start to lose structure without explicit
     /// separators. The `param_id` argument is the id of input or output
-    /// *preceeding* the separator.
+    /// *preceding* the separator.
     ///
     /// Default implementation does nothing.
     fn separator(
@@ -199,7 +199,7 @@ pub trait NodeTemplateIter {
 /// Used by [`NodeTemplateTrait::node_finder_categories`] to categorize nodes
 /// templates into groups.
 ///
-/// If all nodes in a program are known beforehand, it's usefult to define
+/// If all nodes in a program are known beforehand, it's useful to define
 /// an enum containing all categories and implement [`CategoryTrait`] for it. This will
 /// make it impossible to accidentally create a new category by mis-typing an existing
 /// one, like in the case of using string types.

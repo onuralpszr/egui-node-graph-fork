@@ -41,7 +41,7 @@ pub fn color_from_hex(hex: &str) -> Result<Color32, String> {
 
 /// Converts a Color32 into its canonical hexadecimal representation.
 /// - The color string will be preceded by '#'.
-/// - If the alpha channel is completely opaque, it will be ommitted.
+/// - If the alpha channel is completely opaque, it will be omitted.
 /// - Characters from 'a' to 'f' will be written in lowercase.
 #[allow(dead_code)]
 pub fn color_to_hex(color: Color32) -> String {
