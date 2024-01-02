@@ -61,6 +61,7 @@ pub struct GraphResponse<UserResponse: UserResponseTrait, NodeData: NodeDataTrai
     /// Is the mouse currently hovering the node finder?
     pub cursor_in_finder: bool,
 }
+
 impl<UserResponse: UserResponseTrait, NodeData: NodeDataTrait> Default
     for GraphResponse<UserResponse, NodeData>
 {
@@ -72,6 +73,7 @@ impl<UserResponse: UserResponseTrait, NodeData: NodeDataTrait> Default
         }
     }
 }
+
 pub struct GraphNodeWidget<'a, NodeData, DataType, ValueType> {
     pub position: &'a mut Pos2,
     pub graph: &'a mut Graph<NodeData, DataType, ValueType>,
@@ -556,12 +558,12 @@ where
                         .text_style(TextStyle::Button)
                         .color(text_color),
                 ));
-                responses.extend(
-                    self.graph[self.node_id]
-                        .user_data
-                        .top_bar_ui(ui, self.node_id, self.graph, user_state)
-                        .into_iter(),
-                );
+                responses.extend(self.graph[self.node_id].user_data.top_bar_ui(
+                    ui,
+                    self.node_id,
+                    self.graph,
+                    user_state,
+                ));
                 ui.add_space(8.0); // The size of the little cross icon
             });
             ui.add_space(margin.y);
@@ -640,12 +642,12 @@ where
                 output_port_heights.push((height_before + height_after) / 2.0);
             }
 
-            responses.extend(
-                self.graph[self.node_id]
-                    .user_data
-                    .bottom_ui(ui, self.node_id, self.graph, user_state)
-                    .into_iter(),
-            );
+            responses.extend(self.graph[self.node_id].user_data.bottom_ui(
+                ui,
+                self.node_id,
+                self.graph,
+                user_state,
+            ));
         });
 
         // Second pass, iterate again to draw the ports. This happens outside
@@ -848,7 +850,7 @@ where
                     fill: Color32::WHITE.lighten(0.8),
                     stroke: Stroke::NONE,
                     fill_texture_id: Default::default(),
-                    uv: Rect::ZERO
+                    uv: Rect::ZERO,
                 })
             } else {
                 Shape::Noop

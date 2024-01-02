@@ -7,49 +7,32 @@ on:
 name: CI
 
 jobs:
-  test:
-    name: cargo test
-    runs-on: ubuntu-latest
-    steps:
-    - run: sudo apt install libxcb-composite0-dev
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-    - uses: actions/checkout@v4
-    - uses: actions-rs/cargo@v1
-      with:
-        command: test
-        args: --all-features
+  ci-rust-test:
+    name: Rust tests - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    env:
+      RUST_CHANNEL: "stable"
 
-  fmt:
-    name: cargo fmt
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-    - run: rustup component add rustfmt
-    - uses: actions/checkout@v4
-    - run: sudo apt install libxcb-composite0-dev
-    - uses: actions-rs/cargo@v1
-      with:
-        command: fmt
-        args: --all -- --check
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
-  clippy:
-    name: cargo clippy
-    runs-on: ubuntu-latest
     steps:
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-    - run: rustup component add clippy
-    - run: sudo apt install libxcb-composite0-dev
     - uses: actions/checkout@v4
-    - uses: actions-rs/cargo@v1
-      with:
-        command: clippy
-        args: --workspace --all-targets --all-features --  -D warnings -W clippy::all
+
+    - name: Install dependencies
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt install libxcb-composite0-dev
+    
+    - name: Install Rust toolchain
+      run: |
+        rustup update --no-self-update ${{ env.RUST_CHANNEL }}
+        rustup component add --toolchain ${{ env.RUST_CHANNEL }} rustfmt rust-src
+        rustup default ${{ env.RUST_CHANNEL }}
+    - name: Rust Test All Features
+      run: cargo test --all-features
+    - name: Rust Fmt check
+      run: cargo fmt --all -- --check
+    - name: Rust Clippy Check
+      run: cargo clippy --workspace --all-targets --all-features --  -D warnings -W clippy::all
