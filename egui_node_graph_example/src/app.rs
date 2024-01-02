@@ -485,7 +485,7 @@ pub fn evaluate_node(
         }
         fn evaluate_input(&mut self, name: &str) -> anyhow::Result<MyValueType> {
             // Calling `evaluate_input` recursively evaluates other nodes in the
-            // graph until the input value for a paramater has been computed.
+            // graph until the input value for a parameter has been computed.
             evaluate_input(self.graph, self.node_id, name, self.outputs_cache)
         }
         fn populate_output(

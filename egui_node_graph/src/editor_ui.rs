@@ -421,7 +421,7 @@ where
             self.pan_zoom.pan += ui.ctx().input(|i| i.pointer.delta());
         }
 
-        // Deselect and deactivate finder if the editor backround is clicked,
+        // Deselect and deactivate finder if the editor background is clicked,
         // *or* if the the mouse clicks off the ui
         if click_on_background || (mouse.any_click() && !cursor_in_editor) {
             self.selected_nodes = Vec::new();
