@@ -1,4 +1,4 @@
-# Egui Node Graph
+# Egui Node Graph Fork*
 > There you have it! Now go build your next awesome node graph thing in Rust 🦀
 
 [![Latest version](https://img.shields.io/crates/v/egui_node_graph.svg)](https://crates.io/crates/egui_node_graph)
