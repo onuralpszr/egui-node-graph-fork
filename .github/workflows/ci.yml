@@ -24,12 +24,21 @@ jobs:
     - name: Install dependencies
       if: matrix.os == 'ubuntu-latest'
       run: sudo apt install libxcb-composite0-dev
-    
+
     - name: Install Rust toolchain
       run: |
         rustup update --no-self-update ${{ env.RUST_CHANNEL }}
         rustup component add --toolchain ${{ env.RUST_CHANNEL }} rustfmt rust-src
         rustup default ${{ env.RUST_CHANNEL }}
+
+    - name: Set up cargo cache
+      uses: Swatinem/rust-cache@v2
+      with:
+        env-vars: ${{ env.RUST_CHANNEL }}
+        save-if: ${{ github.ref == 'refs/heads/main' }}
+        cache-provider: "github"
+
+
     - name: Rust Test All Features
       run: cargo test --all-features
     - name: Rust Fmt check
